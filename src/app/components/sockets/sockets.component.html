@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col">
+    <form [formGroup]="theForm" (ngSubmit)="submit()">
+      <div class="form-group">
+        <label for="For">Who is this order for:</label>
+        <input class="form-control" name="For" formControlName="for" />
+      </div>
+      <p><strong>Items:</strong></p>
+      <input
+        type="button"
+        class="btn btn-sm btn-success"
+        (click)="addItem()"
+        value="Add Item"
+      />
+      <div
+        class="form-group"
+        *ngFor="let item of items.controls; let i = index"
+        formArrayName="items"
+      >
+        <input class="form-control" [formControlName]="i" />
+      </div>
+      <input type="submit" value="Submit" class="btn btn-primary" />
+    </form>
+  </div>
+  <div class="col">
+    <div class="alert alert-success" *ngIf="message$ | async">
+      {{ message$ | async }}
+    </div>
+    <div class="alert alert-info" *ngFor="let item of orders$ | async">
+      <p>Id: {{ item.id }}</p>
+      <p>For: {{ item.for }}</p>
+      <p>Items: {{ item.items.join(", ") }}</p>
+      <p>Status: {{ item.status }}</p>
+    </div>
+  </div>
+</div>
